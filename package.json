@@ -1,0 +1,33 @@
+{
+  "name": "burn-secret",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./web/index.js",
+  "scripts": {
+    "dev": "node esbuild.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dorianneto/burn-secret.git"
+  },
+  "keywords": [
+    "secret"
+  ],
+  "author": "Dorian Neto <doriansampaioneto@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dorianneto/burn-secret/issues"
+  },
+  "homepage": "https://github.com/dorianneto/burn-secret#readme",
+  "dependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "esbuild-sass-plugin": "^3.3.1"
+  }
+}

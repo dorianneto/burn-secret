@@ -1,6 +1,18 @@
 package api
 
-import "net/http"
+import (
+	"html/template"
+	"net/http"
+)
+
+func renderReact(w http.ResponseWriter, r *http.Request) {
+	parsedTemplate, err := template.ParseFiles("./web/index.html")
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
+
+	parsedTemplate.Execute(w, nil)
+}
 
 func (app *app) Routes() http.Handler {
 	mux := http.NewServeMux()
@@ -8,9 +20,8 @@ func (app *app) Routes() http.Handler {
 	fs := http.FileServer(http.Dir("./public"))
 	mux.Handle("GET /public/", http.StripPrefix("/public/", fs))
 
-	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World"))
-	})
+	mux.HandleFunc("GET /{$}", renderReact)
+	mux.HandleFunc("GET /about", renderReact)
 
 	return mux
 }
