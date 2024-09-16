@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world! <Link to={"/about"}>about2</Link></div>,
+    element: <div className="text-3xl font-bold underline">Hello world! <Link to={"/about"}>about2</Link></div>,
   },
   {
     path: "/about",
