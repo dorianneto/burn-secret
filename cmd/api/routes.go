@@ -1,18 +1,11 @@
 package api
 
 import (
-	"html/template"
 	"net/http"
+
+	"github.com/dorianneto/burn-secret/internal/handlers"
+	"github.com/dorianneto/burn-secret/internal/middleware"
 )
-
-func renderReact(w http.ResponseWriter, r *http.Request) {
-	parsedTemplate, err := template.ParseFiles("./web/index.html")
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-	}
-
-	parsedTemplate.Execute(w, nil)
-}
 
 func (app *app) Routes() http.Handler {
 	mux := http.NewServeMux()
@@ -21,14 +14,20 @@ func (app *app) Routes() http.Handler {
 	mux.Handle("GET /public/", http.StripPrefix("/public/", fs))
 
 	frontendRoutes := []string{
+		"GET /{$}",
 		"GET /secret/new",
 		"GET /secret/{id}/reveal",
 	}
 
-	mux.HandleFunc("GET /{$}", renderReact)
 	for _, route := range frontendRoutes {
-		mux.HandleFunc(route, renderReact)
+		mux.HandleFunc(route, handlers.RenderReact)
 	}
 
-	return mux
+	secretHandlers := handlers.NewSecretHandlers()
+
+	mux.HandleFunc("GET /api/v1/secret/{id}", secretHandlers.ShowSecret)
+	mux.HandleFunc("POST /api/v1/secret/new", secretHandlers.GenerateSecret)
+	mux.HandleFunc("DELETE /api/v1/secret/{id}/burn", secretHandlers.BurnSecret)
+
+	return middleware.LogRequests(mux, app.logger)
 }
