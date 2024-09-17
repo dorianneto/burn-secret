@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/dorianneto/burn-secret/internal/utils"
@@ -13,13 +14,29 @@ func NewSecretHandlers() *secretHandlers {
 }
 
 func (sh *secretHandlers) GenerateSecret(w http.ResponseWriter, r *http.Request) {
-	utils.JsonResponse(w, map[string]string{"page": "new"})
+	type Input struct {
+		Secret string `json:"secret"`
+	}
+
+	var input Input
+
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	utils.JsonResponse(w, input)
 }
 
 func (sh *secretHandlers) BurnSecret(w http.ResponseWriter, r *http.Request) {
-	utils.JsonResponse(w, map[string]string{"page": "burn"})
+	id := r.PathValue("id")
+
+	utils.JsonResponse(w, map[string]string{"page": id})
 }
 
 func (sh *secretHandlers) ShowSecret(w http.ResponseWriter, r *http.Request) {
-	utils.JsonResponse(w, map[string]string{"page": "show"})
+	id := r.PathValue("id")
+
+	utils.JsonResponse(w, map[string]string{"page": id})
 }
