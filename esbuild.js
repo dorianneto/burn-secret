@@ -5,7 +5,7 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
 let ctx = await esbuild.context({
-  logLevel: "debug",
+  logLevel: "info",
   entryPoints: ["web/src/app.tsx", "web/src/main.scss"],
   outdir: "public",
   bundle: true,
@@ -14,11 +14,6 @@ let ctx = await esbuild.context({
     stylePlugin({
       postcss: {
         plugins: [require("tailwindcss"), require("autoprefixer")],
-      },
-      renderOptions: {
-        sassOptions: {
-          sourceMap: true,
-        },
       },
     }),
   ],

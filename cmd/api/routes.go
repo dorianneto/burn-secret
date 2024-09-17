@@ -20,8 +20,15 @@ func (app *app) Routes() http.Handler {
 	fs := http.FileServer(http.Dir("./public"))
 	mux.Handle("GET /public/", http.StripPrefix("/public/", fs))
 
+	frontendRoutes := []string{
+		"GET /secret/new",
+		"GET /secret/{id}/reveal",
+	}
+
 	mux.HandleFunc("GET /{$}", renderReact)
-	mux.HandleFunc("GET /about", renderReact)
+	for _, route := range frontendRoutes {
+		mux.HandleFunc(route, renderReact)
+	}
 
 	return mux
 }
