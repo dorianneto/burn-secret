@@ -10,9 +10,9 @@ export const Home = () => {
   return (
     <div>
       <h1 className="uppercase text-8xl">
-        <Link to={"/"}>Burn a Secret</Link>
+        <Link to={"/"}>🔥 Burn a Secret</Link>
       </h1>
-      <p className="text-base">
+      <p className="text-base mb-6">
         with a link that is created to be destroyed
       </p>
       <Form method="post" className="flex flex-col gap-6">
