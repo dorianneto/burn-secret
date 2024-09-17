@@ -4,12 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { NewSecret } from "./pages/NewSecret";
 import { RevealSecret } from "./pages/RevealSecret";
-import { Home } from "./pages/Home";
+import { action as homeAction, Home } from "./pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    action: homeAction,
   },
   {
     path: "/secret/new",

@@ -18,7 +18,7 @@ export const NewSecret = () => {
           placement="top"
         >
           <p id="secret-link" className="text-xl my-8">
-            {`http://localhost:3000/s/`}
+            {`http://localhost:8080/secret/123/reveal`}
           </p>
         </Tooltip>
         <Button

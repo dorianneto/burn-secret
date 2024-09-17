@@ -1,10 +1,13 @@
 import React from "react";
-import {
-  Button,
-  Textarea,
-} from "@chakra-ui/react";
+import { Button, Textarea } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/react";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect } from "react-router-dom";
+
+export async function action({ request, params }) {
+  // const formData = await request.formData();
+  // const updates = Object.fromEntries(formData);
+  return redirect("secret/new");
+}
 
 export const Home = () => {
   return (
