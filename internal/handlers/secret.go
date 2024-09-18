@@ -4,13 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/dorianneto/burn-secret/internal/interfaces"
 	"github.com/dorianneto/burn-secret/internal/utils"
 )
 
-type secretHandlers struct{}
+type secretHandlers struct {
+	database interfaces.KeyPairBased
+}
 
-func NewSecretHandlers() *secretHandlers {
-	return &secretHandlers{}
+func NewSecretHandlers(database interfaces.KeyPairBased) *secretHandlers {
+	return &secretHandlers{database: database}
 }
 
 func (sh *secretHandlers) GenerateSecret(w http.ResponseWriter, r *http.Request) {

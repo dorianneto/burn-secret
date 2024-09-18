@@ -23,7 +23,7 @@ func (app *app) Routes() http.Handler {
 		mux.HandleFunc(route, handlers.RenderReact)
 	}
 
-	secretHandlers := handlers.NewSecretHandlers()
+	secretHandlers := handlers.NewSecretHandlers(app.database)
 
 	mux.HandleFunc("GET /api/v1/secret/{id}", secretHandlers.ShowSecret)
 	mux.HandleFunc("POST /api/v1/secret/new", secretHandlers.GenerateSecret)

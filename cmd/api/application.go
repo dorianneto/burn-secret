@@ -1,13 +1,19 @@
 package api
 
-import "log/slog"
+import (
+	"log/slog"
+
+	"github.com/dorianneto/burn-secret/internal/interfaces"
+)
 
 type app struct {
-	logger *slog.Logger
+	logger   *slog.Logger
+	database interfaces.KeyPairBased
 }
 
-func NewApp(logger *slog.Logger) *app {
+func NewApp(logger *slog.Logger, database interfaces.KeyPairBased) *app {
 	return &app{
-		logger: logger,
+		logger:   logger,
+		database: database,
 	}
 }

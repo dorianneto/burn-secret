@@ -10,8 +10,12 @@ import (
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	database, err := api.NewDatabase(logger)
+	if err != nil {
+		logger.Error(err.Error())
+	}
 
-	app := api.NewApp(logger)
+	app := api.NewApp(logger, database)
 
 	logger.Info("server running on port :8080")
 
