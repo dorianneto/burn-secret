@@ -22,7 +22,7 @@ func NewAuthHandlers(database interfaces.KeyPairBased, logger *slog.Logger) *aut
 	return &authHandlers{database: database, logger: logger}
 }
 
-func (sh *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
+func (ah *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -32,28 +32,28 @@ func (sh *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		sh.logger.Error("error on decoding input")
+		ah.logger.Error("error on decoding input")
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 
-	id, err := sh.database.Get(fmt.Sprintf("user_email:%s", input.Email))
+	id, err := ah.database.Get(fmt.Sprintf("user_email:%s", input.Email))
 	if err != nil {
-		sh.logger.Error("error on fetching user_email index")
+		ah.logger.Error("error on fetching user_email index")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	password, err := sh.database.Select(fmt.Sprintf("user:%s", id), "password")
+	password, err := ah.database.Select(fmt.Sprintf("user:%s", id), "password")
 	if err != nil {
-		sh.logger.Error("error on fetching user")
+		ah.logger.Error("error on fetching user")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(password.(string)), []byte(input.Password))
 	if err != nil {
-		sh.logger.Error("error on comparing password")
+		ah.logger.Error("error on comparing password")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
@@ -68,7 +68,7 @@ func (sh *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
 
 	tokenString, err := token.SignedString([]byte("7;2IKHuT2.rB"))
 	if err != nil {
-		sh.logger.Error("error on creating token")
+		ah.logger.Error("error on creating token")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
