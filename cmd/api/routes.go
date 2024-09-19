@@ -24,10 +24,13 @@ func (app *app) Routes() http.Handler {
 	}
 
 	secretHandlers := handlers.NewSecretHandlers(app.database)
+	userHandlers := handlers.NewUserHandlers(app.database, app.logger)
 
 	mux.HandleFunc("GET /api/v1/secret/{id}", secretHandlers.ShowSecret)
 	mux.HandleFunc("POST /api/v1/secret/new", secretHandlers.GenerateSecret)
 	mux.HandleFunc("DELETE /api/v1/secret/{id}/burn", secretHandlers.BurnSecret)
+
+	mux.HandleFunc("POST /api/v1/user/new", userHandlers.RegisterUser)
 
 	return middleware.LogRequests(mux, app.logger)
 }

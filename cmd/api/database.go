@@ -47,3 +47,12 @@ func (c *redisClient) Set(key string, value string) error {
 
 	return nil
 }
+
+func (c *redisClient) Insert(key string, data interface{}) error {
+	err := c.client.HSet(ctx, key, data).Err()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
