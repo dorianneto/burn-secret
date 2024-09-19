@@ -56,3 +56,12 @@ func (c *redisClient) Insert(key string, data interface{}) error {
 
 	return nil
 }
+
+func (c *redisClient) Select(key string, field string) (interface{}, error) {
+	cmd := c.client.HGet(ctx, key, field)
+	if err := cmd.Err(); err != nil {
+		return nil, err
+	}
+
+	return cmd.Result()
+}
