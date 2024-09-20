@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
-import AuthProvider, { useAuth } from "./contexts/AuthProvider";
+import AuthProvider from "./contexts/AuthProvider";
 import { Routes } from "./components/Routes";
 
 createRoot(document.getElementById("app")!).render(
@@ -13,6 +13,16 @@ createRoot(document.getElementById("app")!).render(
             <Routes />
           </AuthProvider>
         </ChakraProvider>
+
+        <footer>
+          <small className="text-gray-500">
+            Developed by{" "}
+            <a href="https://dorianneto.com" target="_blank">
+              Dorian Neto
+            </a>{" "}
+            - v1.0.0
+          </small>
+        </footer>
       </div>
     </div>
   </React.StrictMode>

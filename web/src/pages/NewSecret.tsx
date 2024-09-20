@@ -6,8 +6,10 @@ import {
 } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
+import { useLocation } from "react-router-dom";
 
 export const NewSecret = () => {
+  const { state } = useLocation()
   const toast = useToast();
 
   return (
@@ -18,7 +20,7 @@ export const NewSecret = () => {
           placement="top"
         >
           <p id="secret-link" className="text-xl my-8">
-            {`http://localhost:8080/secret/123/reveal`}
+            {`http://localhost/secret/${state.data}/reveal`}
           </p>
         </Tooltip>
         <Button
