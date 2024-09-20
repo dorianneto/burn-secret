@@ -10,6 +10,7 @@ let ctx = await esbuild.context({
   outdir: "public",
   bundle: true,
   minify: true,
+  sourcemap: true,
   plugins: [
     stylePlugin({
       postcss: {
@@ -21,4 +22,11 @@ let ctx = await esbuild.context({
 
 console.log("⚡ Build complete! ⚡");
 
-await ctx.watch();
+if (process.argv.slice(2)[0] === "--watch") {
+  await ctx.watch();
+} else {
+  await ctx.watch();
+  setTimeout(async () => {
+    await ctx.dispose();
+  }, 1000);
+}
