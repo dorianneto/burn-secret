@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/dorianneto/burn-secret/internal/interfaces"
 	"github.com/dorianneto/burn-secret/internal/utils"
+	"github.com/google/uuid"
 )
 
 type secretHandlers struct {
@@ -29,7 +31,20 @@ func (sh *secretHandlers) GenerateSecret(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	utils.JsonResponse(w, input)
+	cipherData, err := utils.EncryptIt(input.Secret)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	id := uuid.New().String()
+
+	sh.database.Insert(fmt.Sprintf("_:secret:%s", id), map[string]interface{}{
+		"secret": cipherData.Code,
+		"nonce":  cipherData.Nonce,
+	})
+
+	utils.JsonResponse(w, map[string]string{"data": id})
 }
 
 func (sh *secretHandlers) BurnSecret(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +54,26 @@ func (sh *secretHandlers) BurnSecret(w http.ResponseWriter, r *http.Request) {
 }
 
 func (sh *secretHandlers) ShowSecret(w http.ResponseWriter, r *http.Request) {
+	type Secret struct {
+		Code  string `redis:"secret"`
+		Nonce string `redis:"nonce"`
+	}
+
+	var secret Secret
+
 	id := r.PathValue("id")
 
-	utils.JsonResponse(w, map[string]string{"page": id})
+	err := sh.database.SelectAll(fmt.Sprintf("_:secret:%s", id), &secret)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	secretParsed, err := utils.DecryptIt(utils.NewCipherData(secret.Code, []byte(secret.Nonce)))
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	utils.JsonResponse(w, map[string]string{"data": secretParsed})
 }

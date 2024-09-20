@@ -51,7 +51,7 @@ func (ah *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(password.(string)), []byte(input.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(input.Password))
 	if err != nil {
 		ah.logger.Error("error on comparing password")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

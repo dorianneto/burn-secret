@@ -15,8 +15,8 @@ type cipherData struct {
 	Nonce []byte
 }
 
-func newCipherData(data string, nonce []byte) *cipherData {
-	return &cipherData{Code: data, Nonce: nonce}
+func NewCipherData(code string, nonce []byte) *cipherData {
+	return &cipherData{Code: code, Nonce: nonce}
 }
 
 func EncryptIt(data string) (*cipherData, error) {
@@ -37,7 +37,7 @@ func EncryptIt(data string) (*cipherData, error) {
 
 	ciphertext := gcm.Seal(nil, nonce, []byte(data), nil)
 
-	return newCipherData(base64.StdEncoding.EncodeToString(ciphertext), nonce), nil
+	return NewCipherData(base64.StdEncoding.EncodeToString(ciphertext), nonce), nil
 }
 
 func DecryptIt(data *cipherData) (string, error) {
