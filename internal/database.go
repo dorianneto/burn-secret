@@ -16,7 +16,7 @@ type redisClient struct {
 
 func NewDatabase(logger *slog.Logger) (*redisClient, error) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     "redis:6379",
 		Username: "",
 		Password: "",
 		DB:       0,

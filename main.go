@@ -18,9 +18,9 @@ func main() {
 
 	app := api.NewApp(logger, database)
 
-	logger.Info("server running on port :8080")
+	logger.Info("server running on port :80")
 
-	if err := http.ListenAndServe(":8080", app.Routes()); err != nil {
+	if err := http.ListenAndServe(":80", app.Routes()); err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
