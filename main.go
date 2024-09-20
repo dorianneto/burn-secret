@@ -6,11 +6,12 @@ import (
 	"os"
 
 	"github.com/dorianneto/burn-secret/cmd/api"
+	"github.com/dorianneto/burn-secret/internal"
 )
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	database, err := api.NewDatabase(logger)
+	database, err := internal.NewDatabase(logger)
 	if err != nil {
 		logger.Error(err.Error())
 	}
