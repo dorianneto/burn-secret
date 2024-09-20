@@ -79,3 +79,12 @@ func (c *redisClient) SelectAll(key string, output interface{}) error {
 
 	return nil
 }
+
+func (c *redisClient) Delete(key string) (int64, error) {
+	cmd := c.client.Del(ctx, key)
+	if err := cmd.Err(); err != nil {
+		return 0, err
+	}
+
+	return cmd.Result()
+}

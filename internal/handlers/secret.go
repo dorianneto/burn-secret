@@ -50,7 +50,18 @@ func (sh *secretHandlers) GenerateSecret(w http.ResponseWriter, r *http.Request)
 func (sh *secretHandlers) BurnSecret(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
-	utils.JsonResponse(w, map[string]string{"page": id})
+	deleted, err := sh.database.Delete(fmt.Sprintf("_:secret:%s", id))
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	if deleted == 0 {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	utils.JsonResponse(w, map[string]int64{"deleted": deleted})
 }
 
 func (sh *secretHandlers) ShowSecret(w http.ResponseWriter, r *http.Request) {
