@@ -19,6 +19,7 @@ jobs:
         run: docker push dorianneto/burn-secret-web:latest
   deploy:
     runs-on: self-hosted
+    needs: build
     steps:
       - name: Pull docker image
         run: docker pull dorianneto/burn-secret-web:latest
