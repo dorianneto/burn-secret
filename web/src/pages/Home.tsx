@@ -86,6 +86,9 @@ export const Home = () => {
             <Select placeholder="" name="" disabled>
               <option value="1">Can be seen 1 time</option>
             </Select>
+            <Select placeholder="" name="" disabled>
+              <option value="1">Expires within 12 hours</option>
+            </Select>
           </CardBody>
         </Card>
         <Button colorScheme="orange" type="submit">
