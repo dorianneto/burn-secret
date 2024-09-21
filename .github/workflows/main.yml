@@ -1,0 +1,28 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker
+        run: docker build . -t dorianneto/burn-secret-web -f ./.docker/go/Dockerfile
+      - name: Push docker
+        run: docker push dorianneto/burn-secret-web:latest
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull docker image
+        run: docker pull dorianneto/burn-secret-web:latest
+      - name: Remove current container
+        run: docker rm -f burn-secret-web-container
+      - name: Runs container
+        run: docker run -d -p 80:80 --name burn-secret-web-container dorianneto/burn-secret-web
