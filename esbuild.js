@@ -9,7 +9,7 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 let ctx = await esbuild.context({
   logLevel: "info",
-  entryPoints: ["web/src/app.tsx", "web/src/main.scss"],
+  entryPoints: ["web/src/App.tsx", "web/src/main.scss"],
   outdir: "public",
   bundle: true,
   minify: true,

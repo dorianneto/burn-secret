@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-      - name: Generate env prod file
-        run: echo "${{ secrets.ENV_PROD }}" > .env.prod
-      - run: cat .env.prod
-      - run: ls -al
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
