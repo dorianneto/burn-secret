@@ -7,6 +7,7 @@ import {
 import { Card, CardBody } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
+import { API_URL } from "../config/api";
 
 export const NewSecret = () => {
   const { state } = useLocation()
@@ -20,7 +21,7 @@ export const NewSecret = () => {
           placement="top"
         >
           <p id="secret-link" className="text-xl my-8">
-            {`http://localhost/secret/${state.data}/reveal`}
+            {`${API_URL}/secret/${state.data}/reveal`}
           </p>
         </Tooltip>
         <Button

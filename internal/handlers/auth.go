@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dorianneto/burn-secret/internal/interfaces"
@@ -66,7 +67,7 @@ func (ah *authHandlers) Login(w http.ResponseWriter, r *http.Request) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims, nil)
 
-	tokenString, err := token.SignedString([]byte("7;2IKHuT2.rB"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("TOKEN_SECRET")))
 	if err != nil {
 		ah.logger.Error("error on creating token")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

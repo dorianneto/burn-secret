@@ -4,6 +4,7 @@ import { Card, CardBody } from "@chakra-ui/react";
 import { CopyIcon, UnlockIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { API_URL } from "../config/api";
 
 export const RevealSecret = () => {
   const [secret, setSecret] = useState(null);
@@ -16,7 +17,7 @@ export const RevealSecret = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data, status } = await axios.get(
-        `http://localhost/api/v1/secret/${id}`
+        `${API_URL}/api/v1/secret/${id}`
       );
 
       if (status != 200) {
@@ -43,7 +44,7 @@ export const RevealSecret = () => {
     }
 
     const fetchData = async () => {
-      await axios.delete(`http://localhost/api/v1/secret/${id}/burn`);
+      await axios.delete(`${API_URL}/api/v1/secret/${id}/burn`);
     };
 
     fetchData().catch(console.error);

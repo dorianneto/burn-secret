@@ -3,6 +3,8 @@ services:
     build:
       dockerfile: ./.docker/go/Dockerfile
       context: ./
+    environment:
+      - APP_ENV=dev
     ports:
       - 80:80
     volumes:

@@ -6,9 +6,8 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"io"
+	"os"
 )
-
-var key []byte = []byte("E2lfBstY1u'N&TV£s{7U/o98;\t*z`q{")
 
 type cipherData struct {
 	Code  string
@@ -20,7 +19,7 @@ func NewCipherData(code string, nonce []byte) *cipherData {
 }
 
 func EncryptIt(data string) (*cipherData, error) {
-	block, err := aes.NewCipher(key)
+	block, err := aes.NewCipher([]byte(os.Getenv("CRYPTO_KEY")))
 	if err != nil {
 		return &cipherData{}, err
 	}
@@ -46,7 +45,7 @@ func DecryptIt(data *cipherData) (string, error) {
 		return "", err
 	}
 
-	block, err := aes.NewCipher(key)
+	block, err := aes.NewCipher([]byte(os.Getenv("CRYPTO_KEY")))
 	if err != nil {
 		return "", err
 	}

@@ -7,9 +7,12 @@ import (
 
 	"github.com/dorianneto/burn-secret/cmd/api"
 	"github.com/dorianneto/burn-secret/internal"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load(".env." + os.Getenv("APP_ENV"))
+
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	database, err := internal.NewDatabase(logger)
 	if err != nil {

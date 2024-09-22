@@ -1,8 +1,11 @@
 import * as esbuild from "esbuild";
 import stylePlugin from "esbuild-style-plugin";
+import dotenv from "dotenv";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
+
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 let ctx = await esbuild.context({
   logLevel: "info",
@@ -18,6 +21,9 @@ let ctx = await esbuild.context({
       },
     }),
   ],
+  define: {
+    "process.env.APP_HOST": JSON.stringify(process.env.APP_HOST),
+  },
 });
 
 console.log("⚡ Build complete! ⚡");

@@ -2,7 +2,9 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"os"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -16,7 +18,7 @@ type redisClient struct {
 
 func NewDatabase(logger *slog.Logger) (*redisClient, error) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
+		Addr:     fmt.Sprintf("%s:%s", os.Getenv("DATABASE_HOST"), os.Getenv("DATABASE_PORT")),
 		Username: "",
 		Password: "",
 		DB:       0,

@@ -8,6 +8,7 @@ import {
 import { Card, CardBody } from "@chakra-ui/react";
 import { Form, json, Link, useActionData, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config/api"
 
 export async function action({ request, params }) {
   const { toast } = createStandaloneToast();
@@ -26,7 +27,7 @@ export async function action({ request, params }) {
   }
 
   const { status, data } = await axios.post(
-    "http://localhost/api/v1/secret/new",
+    `${API_URL}/api/v1/secret/new`,
     {
       secret,
     }

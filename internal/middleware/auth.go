@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -25,7 +26,7 @@ func EnsureToken(next func(http.ResponseWriter, *http.Request)) func(http.Respon
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
 
-			return []byte("7;2IKHuT2.rB"), nil
+			return []byte(os.Getenv("TOKEN_SECRET")), nil
 		})
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
