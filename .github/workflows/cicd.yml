@@ -12,6 +12,15 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
       - name: Use Node.js
+        run: |
+          touch .env.prod
+          echo APP_HOST=${{ env.APP_HOST }} >> .env.prod
+          echo DATABASE_HOST=${{ env.DATABASE_HOST }} >> .env.prod
+          echo DATABASE_PORT=${{ env.DATABASE_PORT }} >> .env.prod
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env.prod
+          echo CRYPTO_KEY=${{ secrets.CRYPTO_KEY }} >> .env.prod
+          cat .env.prod
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
