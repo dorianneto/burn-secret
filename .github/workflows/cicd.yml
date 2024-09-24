@@ -46,4 +46,4 @@ jobs:
       - name: Remove old images
         run: docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
       - name: Runs container
-        run: docker run -d -p 80:80 -e APP_ENV=prod --name burn-secret-web-container dorianneto/burn-secret-web
+        run: docker run -d -p 80:80 -p 443:443 -e APP_ENV=prod --name burn-secret-web-container dorianneto/burn-secret-web

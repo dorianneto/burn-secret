@@ -12,5 +12,6 @@ RUN go mod download
 COPY . .
 
 EXPOSE 80
+EXPOSE 443
 
 CMD ["air"]
