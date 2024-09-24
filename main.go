@@ -61,7 +61,7 @@ func main() {
 
 	go http.ListenAndServe(":80", certManager.HTTPHandler(nil))
 
-	if err := server.ListenAndServeTLS("certs/localhost.crt", "certs/localhost.key"); err != nil {
+	if err := server.ListenAndServeTLS("", ""); err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
