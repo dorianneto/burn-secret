@@ -15,6 +15,7 @@ jobs:
         run: |
           touch .env.prod
           echo APP_HOST=${{ vars.APP_HOST }} >> .env.prod
+          echo APP_DOMAIN=${{ vars.APP_DOMAIN }} >> .env.prod
           echo DATABASE_HOST=${{ vars.DATABASE_HOST }} >> .env.prod
           echo DATABASE_PORT=${{ vars.DATABASE_PORT }} >> .env.prod
           echo TOKEN_SECRET="${{ secrets.TOKEN_SECRET }}" >> .env.prod
